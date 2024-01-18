@@ -1,0 +1,228 @@
+.dashboard-body-divs{
+    margin: 1% 10px;
+    margin-right: 20px;
+    box-shadow: 0px 0px 10px 1px #c1c2c4;
+    border-radius: 5px;
+}
+.portfolio-summary{
+    height: 20%;
+    cursor: pointer;
+}
+.fund-position{
+    display:flex;
+    height: 22%;
+}
+.market-chat{
+    padding-bottom: 0px;
+    position: relative;
+    height: 56%;
+    padding-right: 5px;
+}
+.fund{
+    display: flex;
+    width: 50%;
+    margin-right: 10px;
+}
+.position{
+    display: flex;
+    width: 50%;
+}
+.portfolio-summary-heading{
+    position: relative;
+    /* border: black solid 0.1px; */
+    height: 40%;
+}
+.portfolio-summary-data{
+    display: flex;
+    /* border: black solid 0.1px; */
+    height: 60%;
+
+}
+.portfolio-summary-heading-logo{
+    position: absolute;
+    top: 34%;
+    left: 10px;
+    color: #00c1f2;;
+    font-size: 1.2rem;
+    font-weight: 600;
+}
+.portfolio-summary-heading-html{
+    position: absolute;
+    left: 40px;
+    top: 25%;
+    color: #494949;
+    font-size: 1.2rem;
+    font-weight: 600;
+}
+.portfolio-summary-heading-logo-next{
+    position: absolute;
+    right: 20px;
+    top: 30%;
+    color: #494949;
+    font-size: 1.2rem;
+    font-weight: 600;
+
+}
+.portfolio-summary-common{
+    margin-top: 2%;
+    /* border: #00c1f2 solid 1px; */
+    width:33%;
+    color: #494949;
+}
+.fund-data{
+   
+    width: 65%;
+
+}
+.fund-logo{
+    margin-top: auto;
+    margin-bottom: auto;
+    width: 35%;
+    font-size: 50px;
+}
+.fund-common{
+    text-align: left;
+    margin: 7px 0px;
+    margin-left: 10px;
+    height: 23.33%;
+    color: #494949;
+    font-size: 15px;
+    /* border: #004393 solid 2px; */
+        font-weight: 500;
+}
+
+.fund-data-logo{
+    position: relative;
+    top: 4.5px;
+    margin-right: 4%;
+    font-size: 20px;
+    color: #00c1f2;
+}
+.fund-data-value{
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: black;
+}
+.fund-data-add{
+    width: 85%;
+    height: 95%;
+    background-color: #004393;
+    color: white;
+    border-radius: 4px;
+    cursor: pointer;
+}
+.position-data {
+
+    width: 70%;
+
+}
+
+.position-logo {
+    margin-top: auto;
+    margin-bottom: auto;
+    width: 30%;
+    font-size: 50px;
+}
+
+.position-common {
+    text-align: left;
+    margin: 7px 0px;
+    margin-left: 10px;
+    height: 23.33%;
+    color: #494949;
+    font-size: 15px;
+    font-weight: 500;
+}
+
+.position-data-logo {
+    position: relative;
+    top: 4.5px;
+    margin-right: 4%;
+    font-size: 20px;
+    color: #00c1f2;
+}
+
+.position-data-value {
+    font-size: 9px;
+    font-weight: 400;
+    /* color: black; */
+}
+
+.position-data-add {
+    width: 80%;
+    border: #004393 solid 1px;
+    padding-top:6px;
+    /* height: 95%; */
+    text-align: center;
+    color:#004393;
+    border-radius: 4px;
+    cursor: pointer;
+}
+.chartInput{
+    position: absolute;
+    top:-5px;
+    left: 10px;
+    z-index: 100;
+    /* background-color: white; */
+    /* border: #930014 solid 2px; */
+}
+.chartInputInterval{
+    border: none;
+    outline: none;
+    /* width: 45px; */
+    font-size: x-small;
+    cursor: pointer;
+    margin-right: 10px;
+    height: 20px;
+    background-color: #253248;
+    color: white;
+}
+.fromdate{
+    margin-right: 10px;
+    border: none;
+    outline: none;
+    font-size: small;
+    height: 20px;
+    background-color: #253248;
+        color: white;
+    /* cursor: pointer; */
+}
+.todate{
+    margin-top: 5px;
+    margin-right: 10px;
+    border: none;
+    outline: none;
+    /* width: 170px; */
+    font-size: small;
+    height: 20px;
+    background-color: #253248;
+    color: white;
+    /* cursor: pointer; */
+}
+input[type="datetime-local"]::-webkit-calendar-picker-indicator {
+    filter: invert(1);
+}
+.chartDataSubmit{
+    padding: 0px;
+    width: 60px;
+    font-size: 12px;
+    border-radius: 6px;
+    background-color:rgb(109, 201, 109);
+    height: 20px;
+    cursor: pointer;
+
+}
+.zoomedChart{
+    position:relative;
+}
+.maximize{
+    z-index: 400;
+    position: absolute;
+    top: 1px;
+    right: 10px;
+    width: 15px;
+    height: 15px;
+    cursor: pointer;
+    /* background-color: red; */
+    /* border: red solid 2px; */
+}

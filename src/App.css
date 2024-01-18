@@ -1,0 +1,234 @@
+.App {
+  text-align: center;
+}
+
+.App-logo {
+  height: 40vmin;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear;
+  }
+}
+
+.App-header {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.App-link {
+  color: #61dafb;
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+.navigation{
+  box-shadow: 0px 0px 10px 1px #c1c2c4;
+  display: flex;
+  height:50px;
+  align-items: center;
+  background-color:#494949;
+  color: white;
+}
+.logo{
+  width: 50px;
+  height: 50px;
+  margin-left: 4vw;
+  border-radius: 50%;
+  
+}
+.nav-list{
+  display: flex;
+  list-style: none;
+  /* border: red solid 1px; */
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 0px;
+  
+}
+.nav-list li{
+  /* border: blue solid 1px; */
+  margin-left: 20px;
+  margin-right: 20px;
+}
+.nav-list li a{
+  text-decoration: none;
+  color: white;
+  /* color: white; */
+}
+.profile{
+  margin-right: 50px;
+  font-size:large;
+}
+.split{
+  display: flex;
+}
+.dashboard-slider{
+  height: 90vh;
+  /* margin-left: 5px; */
+  /* overflow-y: scroll; */
+  /* border: #282c34 solid 3px; */
+}
+
+.search-stock{
+  border: none;
+  outline: none;
+}
+.search-box{
+  display: flex;
+  align-items: center;
+  height: 40px;
+  margin-bottom: 40px;
+  /* border: #282c34 solid 1px; */
+  box-shadow: 0px 0px 10px 0.4px #c1c2c4;
+  border-radius: 5px;
+  margin-left: 10px;
+  margin-top: 5px;
+}
+.search-icon{
+  font-size: 20px;
+}
+.search-stock-parent{
+  margin-right: auto;
+  margin-left: auto;
+}
+
+.slider-stock-lists{
+  box-shadow: 0px 0px 10px 0.4px #c1c2c4;
+  margin-left: 9px;
+  height: 87%;
+  border-radius: 5px;
+  overflow-y: scroll;
+}
+.slider-stock-list{
+  height: 60px;
+  margin-left: 1px;
+  border-bottom: #7d7e80 solid 0.1px;
+  color: #494949;
+  font-size: 1.05rem;
+    font-weight: 500;
+}
+.slider-stock-list:hover{
+    background-color: #e1dfdf;
+    cursor: pointer;
+}
+.stock-name-price{
+  display: flex;
+  height: 50%;
+}
+.stock-name{
+  margin-right:auto ;
+  margin-left:5px ;
+}
+.stock-sharemarket-pricedropp-persentdrop{
+  display: flex;
+}
+.stock-sharemarket{
+  margin-right:auto ;
+  margin-left: 5px;
+}
+.stock-price-gain{
+  margin-right: 5px;
+}
+/* VerticalLine.css */
+
+.vertical-line {
+  border-left: 2px solid #dedede;
+  /* Adjust thickness and color as needed */
+  height: 70%;
+  /* Adjust height as needed */
+  margin: 10px 0px;
+  /* Adjust margin as needed */
+}
+/* signin */
+/* SignInForm.css */
+
+.sign-in-form {
+  max-width: 400px;
+  margin: 100px auto;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.input-field {
+  width: 100%;
+  padding: 8px;
+  margin-bottom: 16px;
+  box-sizing: border-box;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.sign-in-button {
+  background-color: #4caf50;
+  color: #fff;
+  padding: 10px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.sign-in-button:hover {
+  background-color: #45a049;
+}
+.login{
+  display: flex;
+  align-items: center;
+  justify-content:center;
+  height:93vh;
+  background-color:black;
+}
+.bn632-hover {
+  width: 160px;
+  font-size: 16px;
+  font-weight: 600;
+  color: #fff;
+  cursor: pointer;
+  margin: 20px;
+  height: 55px;
+  text-align: center;
+  border: none;
+  background-size: 300% 100%;
+  border-radius: 50px;
+  moz-transition: all .4s ease-in-out;
+  -o-transition: all .4s ease-in-out;
+  -webkit-transition: all .4s ease-in-out;
+  transition: all .4s ease-in-out;
+}
+
+.bn632-hover:hover {
+  background-position: 100% 0;
+  moz-transition: all .4s ease-in-out;
+  -o-transition: all .4s ease-in-out;
+  -webkit-transition: all .4s ease-in-out;
+  transition: all .4s ease-in-out;
+}
+
+.bn632-hover:focus {
+  outline: none;
+}
+
+.bn632-hover.bn23 {
+  background-image: linear-gradient(to right,
+      #009245,
+      #fcee21,
+      #00a8c5,
+      #d9e021);
+  box-shadow: 0 4px 15px 0 rgba(83, 176, 57, 0.75);
+}
