@@ -1,3 +1,6 @@
+.dashboard-body{
+    height: calc(100vh-50px);
+}
 .dashboard-body-divs{
     margin: 1% 10px;
     margin-right: 20px;
@@ -70,9 +73,14 @@
     color: #494949;
 }
 .fund-data{
+    /* display: flex; */
    
-    width: 65%;
+    width: 100%;
 
+}
+
+.test{
+    background-color: white;
 }
 .fund-logo{
     margin-top: auto;
@@ -85,7 +93,7 @@
     margin: 7px 0px;
     margin-left: 10px;
     height: 23.33%;
-    color: #494949;
+    /* color: #494949; */
     font-size: 15px;
     /* border: #004393 solid 2px; */
         font-weight: 500;
@@ -99,9 +107,9 @@
     color: #00c1f2;
 }
 .fund-data-value{
-    font-size: 1.4rem;
-    font-weight: 700;
-    color: black;
+    font-size: 1rem;
+    font-weight: 500;
+    /* color: black; */
 }
 .fund-data-add{
     width: 85%;
@@ -214,6 +222,11 @@ input[type="datetime-local"]::-webkit-calendar-picker-indicator {
 }
 .zoomedChart{
     position:relative;
+    /* height: 92.73vh; */
+    height: calc(100vh - 49.8px);
+    /* border: #004393 solid 2px; */
+    overflow: hidden;
+
 }
 .maximize{
     z-index: 400;

@@ -1,75 +1,158 @@
-import React, { useEffect, useState } from "react";
-import { createChart } from "lightweight-charts";
-// import { priceData } from "./priceData";
+import "../editor.css";
+import { useEffect, useState } from "react";
+import Input from "./chartDataInput";
+import Candlestickchart from "./candlechart";
+import Optioncard from "./Optioncard";
 
-import "./style.css";
+// import { Navigate } from "react-router-dom";
+// import { authenticator } from "otplib";
+import { useNavigate } from "react-router-dom";
 
-function CandlestickChart(props) {
-  //Variables
-
-  const [LTP, setLTP] = useState(null);
+export default function Editor(props) {
+  const Navigate = useNavigate();
+  const [LTP, setLTP] = useState([
+    {
+      Nifty50: null,
+      changeAbsolute: null,
+      changePercent: null,
+    },
+    {
+      Banknifty: null,
+      changeAbsolute: null,
+      changePercent: null,
+    },
+    {
+      Finnifty: null,
+      changeAbsolute: null,
+      changePercent: null,
+    },
+    {
+      Midcap: null,
+      changeAbsolute: null,
+      changePercent: null,
+    },
+  ]);
   const publicAccessToken = JSON.parse(
     localStorage.getItem("users")
   ).public_access_token;
-  const [resize, setResize] = useState(window.innerWidth);
-  const [series, setSeries] = useState();
-  const [bar, setBar] = useState(null);
-  const [send, setsend] = useState(false);
+  // const date = new Date();
+  var currentdate = new Date();
+  currentdate = Date.parse(currentdate) + 19800000;
+  var lastdate = currentdate - 518400000;
+  currentdate = new Date(currentdate);
+  lastdate = new Date(lastdate);
+  lastdate = lastdate.toISOString().replace("T", " ").slice(0, 16);
+  currentdate = currentdate.toISOString().replace("T", " ").slice(0, 16);
 
-  //historical data using api
-  // dependancy -> priceData and resize this useEffect will run when the screen will resize and priceData will change
-  useEffect(() => {
-    //option of the chart means css of chart
-    const chartOptions = {
-      layout: {
-        textColor: "rgba(255, 255, 255, 0.9)",
-        background: { type: "solid", color: "#253248" },
-      },
-      grid: {
-        vertLines: {
-          color: "#334158",
-        },
-        horzLines: {
-          color: "#334158",
-        },
-      },
-      crosshair: {},
-      priceScale: {
-        borderColor: "#485c7b",
-      },
-      timeScale: {
-        borderColor: "#485c7b",
-        timeVisible: true,
-        secondsVisible: false,
-      },
-    };
+  const [candle, setCandle] = useState([]);
+  const [formData, setFormData] = useState({
+    interval: "FIVE_MINUTE",
+    fromdate: lastdate,
+    todate: currentdate,
+  });
 
-    const chartElement = document.getElementById("tradingview");
-    if (chartElement) {
-      // Remove any existing chart before creating a new one
-      chartElement.innerHTML = "";
-      //creating a chart
-      const chart = createChart(chartElement, chartOptions);
-      //series of the chart data entry of the chart
-      const candlestickSeries = chart.addCandlestickSeries({
-        upColor: "#26a69a",
-        downColor: "#ef5350",
-        borderDownColor: "#ff4976",
-        borderUpColor: "#4bffb5",
-        wickUpColor: "#26a69a",
-        wickDownColor: "#ef5350",
+  const transformData = (inputData) => {
+    return inputData.data.map((item) => {
+      const tradetime = (Date.parse(item[0]) + 19800000) / 1000;
+      return {
+        time: tradetime,
+        open: item[1],
+        high: item[2],
+        low: item[3],
+        close: item[4],
+      };
+    });
+  };
+
+  const receiveChartInputData = (input) => {
+    console.log(input);
+    if (!input.fromdate || !input.todate) {
+      setFormData((prev) => {
+        return {
+          ...prev,
+          interval: input.interval,
+          fromdate: lastdate,
+          todate: currentdate,
+        };
       });
-      setSeries(candlestickSeries);
-      console.log(props.priceData);
-      console.log("props");
-      candlestickSeries.setData(props.priceData);
-      chart.timeScale().fitContent();
+    } else {
+      setFormData(input);
     }
-  }, [props.priceData, resize]);
 
-  //websocket connection
-  //getting binary data,binary to decimam conversion and updating the LTP Usestate
-  //no need of dependancy because it is a websocket it will run contineous
+    // console.log(formData);
+  };
+
+  var data = JSON.stringify({
+    exchange: "NSE",
+    // symboltoken: "77567",
+    symboltoken: "99926000",
+    interval: `${formData.interval}`,
+    fromdate: `${formData.fromdate}`,
+    todate: `${formData.todate}`,
+  });
+
+  const url =
+    "https://apiconnect.angelbroking.com/rest/secure/angelbroking/historical/v1/getCandleData";
+
+  useEffect(() => {
+    const Authorization = JSON.parse(localStorage.getItem("Auth"));
+    if (!Authorization) {
+      Navigate("/");
+    }
+
+    const header = {
+      "X-PrivateKey": "dSlTjRIK",
+      Accept: "application/json",
+      "X-SourceID": "WEB",
+      "X-ClientLocalIP": "10.30.47.95",
+      "X-ClientPublicIP": "14.139.176.131",
+      "X-MACAddress": "7A-F1-FE-39-A3-21",
+      "X-UserType": "USER",
+      Authorization: `Bearer ${Authorization.data.jwtToken}`,
+      "Content-Type": "application/json",
+      Connection: "keep-alive",
+    };
+    fetch(url, {
+      method: "POST",
+      headers: header,
+      body: data,
+    })
+      .then(function (response) {
+        console.log("Response status:", response.status, response.statusText);
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+        return response.json();
+      })
+      .then(function (Data) {
+        // Data = JSON.stringify(Data);
+        // console.log(Data);
+        setCandle(transformData(Data));
+
+        // console.log(candle);
+      })
+      .catch(function (error) {
+        console.error(
+          "There was a problem with the fetch operation:",
+          error.message
+        );
+        localStorage.removeItem("Auth");
+        // Navigate("/Signin");
+      });
+  }, [formData]);
+
+  const receiveltp = (input) => {
+    props.sendltp(input);
+  };
+  const receiveIndices = (input) => {
+    console.log(input);
+    props.sendIndices(input);
+  };
+  const receiveconfig = (input) => {
+    console.log(input);
+    props.sendconfig(input);
+  };
+
   useEffect(() => {
     // console.log(publicAccessToken);
     const socket = new WebSocket(
@@ -86,6 +169,27 @@ function CandlestickChart(props) {
               scripType: "INDEX",
               exchangeType: "NSE",
               scripId: "13",
+            },
+            {
+              actionType: "ADD",
+              modeType: "LTP",
+              scripType: "INDEX",
+              exchangeType: "NSE",
+              scripId: "25",
+            },
+            {
+              actionType: "ADD",
+              modeType: "LTP",
+              scripType: "INDEX",
+              exchangeType: "NSE",
+              scripId: "27",
+            },
+            {
+              actionType: "ADD",
+              modeType: "LTP",
+              scripType: "INDEX",
+              exchangeType: "NSE",
+              scripId: "442",
             },
           ])
         );
@@ -108,8 +212,6 @@ function CandlestickChart(props) {
       const arrayBufferPromise = message.data.arrayBuffer();
       arrayBufferPromise.then((data) => {
         var l = data.byteLength;
-        // console.log(l);
-
         var dvu = new DataView(data);
         let position = 0;
         while (position !== l) {
@@ -159,9 +261,62 @@ function CandlestickChart(props) {
         }
 
         function processIndexLtpPacket(dvu) {
-          setLTP(dvu.getFloat32(position, true));
-          console.log("last_trade_price: " + dvu.getFloat32(position, true));
+          const id = dvu.getInt32(position + 8, true);
+          const ltp = dvu.getFloat32(position, true);
+          const changeAbsolute = dvu.getFloat32(position + 14, true);
+          const changePercent = dvu.getFloat32(position + 18, true);
+          if (id === 13) {
+            setLTP((prevState) => [
+              {
+                ...prevState[0],
+                Nifty50: ltp,
+                changeAbsolute: changeAbsolute,
+                changePercent: changePercent,
+              },
+              ...prevState.slice(1),
+            ]);
+          } else if (id === 25) {
+            setLTP((prevState) => [
+              ...prevState.slice(0, 1),
+              {
+                ...prevState[1],
+                Banknifty: ltp,
+                changeAbsolute: changeAbsolute,
+                changePercent: changePercent,
+              },
+              ...prevState.slice(2),
+            ]);
+          } else if (id === 27) {
+            setLTP((prevState) => [
+              ...prevState.slice(0, 2),
+              {
+                ...prevState[2],
+                Finnifty: ltp,
+                changeAbsolute: changeAbsolute,
+                changePercent: changePercent,
+              },
+              ...prevState.slice(3),
+            ]);
+          } else {
+            setLTP((prevState) => [
+              ...prevState.slice(0, 3),
+              {
+                ...prevState[3],
+                Midcap: ltp,
+                changeAbsolute: changeAbsolute,
+                changePercent: changePercent,
+              },
+              // ...prevState.slice(4),
+            ]);
+          }
 
+          // console.log("last_trade_price: " + dvu.getFloat32(position, true));
+          // console.log("last_update_time: " + dvu.getInt32(position + 4, true));
+          // console.log("security id: " + dvu.getInt32(position + 8, true));
+          // console.log("traded: " + dvu.getInt8(position + 12, true));
+          // console.log("Mode: " + dvu.getInt8(position + 13, true));
+          // console.log("changeAbsolute: " + dvu.getFloat32(position + 14, true));
+          // console.log("changePercent: " + dvu.getFloat32(position + 18, true));
           position += 22;
         }
 
@@ -302,98 +457,61 @@ function CandlestickChart(props) {
     };
   }, [publicAccessToken]);
 
-  // this useEffect will run only when LTP will change in previous useEffect
-  //the contineous changing LTP will run it contineously and it will update the Usestate bar
-  useEffect(() => {
-    if (LTP != null) {
-      setBar(() => {
-        var time = new Date();
-        const hours = time.getHours();
-        const minutes = time.getMinutes();
-        const validtime = hours * 60 + minutes;
-        time = Date.parse(time);
-        time = Math.floor((time + 19800000) / 300000) * 300;
-        if (validtime >= 555 && validtime <= 930) {
-          if (bar === null) {
-            let n = props.priceData.length;
-            console.log(n);
-            console.log("here");
-            return {
-              time: props.priceData[n - 1].time,
-              open: props.priceData[n - 1].open,
-              high: props.priceData[n - 1].high,
-              low: props.priceData[n - 1].low,
-              close: props.priceData[n - 1].close,
-            };
-          } else {
-            if (time === bar.time + 300) {
-              return {
-                time: time,
-                open: LTP,
-                high: LTP,
-                low: LTP,
-                close: LTP,
-              };
-            } else {
-              var open = bar.open;
-              var high = bar.high;
-              var low = bar.low;
-              console.log(bar.close);
-              // var close=bar.close;
-              high = LTP > high ? high : LTP;
-              low = LTP < low ? low : LTP;
-              return {
-                time: time,
-                open: open,
-                high: high,
-                low: low,
-                close: LTP,
-              };
-            }
-          }
-        } else {
-          let n = props.priceData.length;
-
-          return {
-            time: props.priceData[n - 1].time,
-            open: props.priceData[n - 1].open,
-            high: props.priceData[n - 1].high,
-            low: props.priceData[n - 1].low,
-            close: props.priceData[n - 1].close,
-          };
-        }
-      });
-    }
-    // props.sendltp(LTP);
-    if (send === false && LTP !== null) {
-      props.sendltp(LTP);
-      setsend(true);
-    }
-  }, [LTP]);
-
-  useEffect(() => {
-    if (bar !== null && series !== null) {
-      series.update(bar);
-    }
-  }, [series, bar]);
-
-  //rerender while resize
-  useEffect(() => {
-    const intervalId = setInterval(() => {
-      setResize(window.innerWidth);
-    }, 1500);
-
-    return () => {
-      // Clear the interval when the component is unmounted
-      clearInterval(intervalId);
-    };
-  }, []);
-
   return (
-    <div className="tradingview" id="chart">
-      <div id="tradingview" className="chart-container"></div>
+    <div className="dashboard-body bg-zinc-950">
+      <div className="fund-position">
+        <Optioncard
+          indices="Nifty 50"
+          optionIndices="NIFTY"
+          ltp={LTP[0].Nifty50}
+          changeAbsolute={LTP[0].changeAbsolute}
+          changePercent={LTP[0].changePercent}
+          sendIndices={receiveIndices}
+          sendconfig={receiveconfig}
+          sendltp={receiveltp}
+        />
+        <Optioncard
+          indices="Nifty Bank"
+          optionIndices="BANKNIFTY"
+          ltp={LTP[1].Banknifty}
+          changeAbsolute={LTP[1].changeAbsolute}
+          changePercent={LTP[1].changePercent}
+          sendIndices={receiveIndices}
+          sendconfig={receiveconfig}
+          sendltp={receiveltp}
+        />
+      </div>
+      <div className="fund-position">
+        <Optioncard
+          indices="Nifty Financial Services"
+          optionIndices="FINNIFTY"
+          ltp={LTP[2].Finnifty}
+          changeAbsolute={LTP[2].changeAbsolute}
+          changePercent={LTP[2].changePercent}
+          sendIndices={receiveIndices}
+          sendconfig={receiveconfig}
+          sendltp={receiveltp}
+        />
+        <Optioncard
+          indices="Nifty Midcap Select"
+          optionIndices="MIDCPNIFTY"
+          ltp={LTP[3].Midcap}
+          changeAbsolute={LTP[3].changeAbsolute}
+          changePercent={LTP[3].changePercent}
+          sendIndices={receiveIndices}
+          sendconfig={receiveconfig}
+          sendltp={receiveltp}
+        />
+      </div>
+
+      <div className="market-chat dashboard-body-div">
+        <Input sendChartInputData={receiveChartInputData} />
+        <Candlestickchart
+          priceData={candle}
+          sendltp={receiveltp}
+          className="chart"
+        />
+      </div>
     </div>
   );
 }
-
-export default CandlestickChart;

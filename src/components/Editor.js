@@ -4,20 +4,20 @@ import { MdNavigateNext } from "react-icons/md";
 import VerticalLine from "./vertical-line";
 import Fund from "./fund";
 import Position from "./position";
-import StockChart from "./chart";
 import { useEffect, useState } from "react";
 import Input from "./chartDataInput";
 import Candlestickchart from "./candlechart";
+
 // import { Navigate } from "react-router-dom";
 // import { authenticator } from "otplib";
 import { useNavigate } from "react-router-dom";
 
-export default function Editor() {
+export default function Editor(props) {
   const Navigate = useNavigate();
   // const date = new Date();
   var currentdate = new Date();
   currentdate = Date.parse(currentdate) + 19800000;
-  var lastdate = currentdate - 86400000;
+  var lastdate = currentdate - 259200000;
   currentdate = new Date(currentdate);
   lastdate = new Date(lastdate);
   lastdate = lastdate.toISOString().replace("T", " ").slice(0, 16);
@@ -83,7 +83,7 @@ export default function Editor() {
       "X-PrivateKey": "dSlTjRIK",
       Accept: "application/json",
       "X-SourceID": "WEB",
-      "X-ClientLocalIP": "10.30.42.237",
+      "X-ClientLocalIP": "10.30.47.95",
       "X-ClientPublicIP": "14.139.176.131",
       "X-MACAddress": "7A-F1-FE-39-A3-21",
       "X-UserType": "USER",
@@ -116,9 +116,15 @@ export default function Editor() {
           error.message
         );
         localStorage.removeItem("Auth");
-        Navigate("/Signin");
+        // Navigate("/Signin");
       });
   }, [formData]);
+  const receiveltp = (input) => {
+    console.log(input);
+    // return input;
+
+    props.sendltp(input);
+  };
 
   return (
     <div className="dashboard-body">
@@ -154,12 +160,11 @@ export default function Editor() {
       </div>
       <div className="market-chat dashboard-body-divs">
         <Input sendChartInputData={receiveChartInputData} />
-        {/* <StockChart
-          candlestickData={candle}
-          interval={formData.interval}
+        <Candlestickchart
+          priceData={candle}
+          sendltp={receiveltp}
           className="chart"
-        /> */}
-        <Candlestickchart priceData={candle} className="chart" />
+        />
       </div>
     </div>
   );

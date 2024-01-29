@@ -7,6 +7,7 @@ import Signin from "./components/Signin";
 import Login from "./components/login";
 import Fno from "./components/Fno";
 import PrivateComponent from "./components/PrivateComponent";
+import Stocks from "./components/Stocks";
 // import { useState } from "react";
 function App() {
   // const [name,setName]=useState();
@@ -18,6 +19,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Login />} />
           <Route element={<PrivateComponent />}>
+            <Route path="/Stocks" element={<Stocks />} />
             <Route path="/Fno" element={<Fno />} />
             <Route path="/Signin" element={<Signin />} />
             <Route path="/Dashboard" element={<Dashboard />} />

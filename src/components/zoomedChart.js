@@ -1,4 +1,4 @@
-import StockChart from "./chart";
+// import StockChart from "./chart";
 import Input from "./chartDataInput";
 import { useState, useEffect } from "react";
 import Candlestickchart from "./candlechart";
@@ -99,13 +99,8 @@ const ZoomedChart = () => {
   }, [formData]);
 
   return (
-    <div className="market-chat dashboard-body-divs">
+    <div className="zoomedChart ">
       <Input sendChartInputData={receiveChartInputData} />
-      {/* <StockChart
-        candlestickData={candle}
-        interval={formData.interval}
-        className="chart"
-      /> */}
       <Candlestickchart priceData={candle} className="chart" />
     </div>
   );

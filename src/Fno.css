@@ -1,0 +1,35 @@
+.Optionchain{
+    /* height: calc(100vw- 50px); */
+    height: 90.5vh;
+    /* border: red solid 2px; */
+}
+
+.option{
+    border: rgb(192, 192, 192) solid 1px;
+}
+.center{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.scroll-container {
+    
+    scrollbar-width: thin;
+    /* Firefox */
+    scrollbar-color: rgb(159, 157, 157) white;
+    /* Firefox */
+}
+
+/* Webkit browsers (Chrome, Safari) */
+.scroll-container::-webkit-scrollbar {
+    width: 8px;
+}
+
+.scroll-container::-webkit-scrollbar-thumb {
+    background-color: rgb(159, 157, 157);
+    border-radius: 10px;
+}
+
+.scroll-container::-webkit-scrollbar-track {
+    background-color: rgb(255, 255, 255);
+}

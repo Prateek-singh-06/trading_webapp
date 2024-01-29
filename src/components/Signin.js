@@ -31,18 +31,14 @@ const SignInForm = () => {
 
     const url =
       "https://apiconnect.angelbroking.com//rest/auth/angelbroking/user/v1/loginByPassword";
+
     const header = {
-      "X-PrivateKey": "dSlTjRIK",
       Accept: "application/json",
       "X-SourceID": "WEB",
-      "X-ClientLocalIP": "10.30.42.237",
-      "X-ClientPublicIP": "14.139.176.131",
-      "X-MACAddress": "7A-F1-FE-39-A3-21",
-      "X-UserType": "USER",
       "Content-Type": "application/json",
       Connection: "keep-alive",
     };
-    fetch(url, {
+    fetch("http://localhost:5000/signin", {
       method: "POST",
       headers: header,
       body: data,
